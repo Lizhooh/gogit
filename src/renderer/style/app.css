@@ -25,7 +25,15 @@ html, body {
     overflow: auto;
     display: flex;
     user-select: none;
+
+    /*animation: status-animated-run 1s linear infinite ;*/
 }
+
+/*@keyframes status-animated-run {
+    0% { transform: rotate(0deg) }
+    100% { transform: rotate(100deg) }
+}*/
+
 
 .allow-drag {
     -webkit-app-region: drag;
@@ -37,9 +45,4 @@ html, body {
 
 * {
     box-sizing: border-box;
-}
-
-.flex-1 {
-    flex: 1;
-    height: 100%;
 }
