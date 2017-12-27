@@ -1,0 +1,33 @@
+{
+  "comments": false,
+  "env": {
+    "main": {
+      "presets": [
+        ["env", {
+          "targets": { "node": 7 }
+        }],
+        "stage-0",
+        "react"
+      ]
+    },
+    "renderer": {
+      "presets": [
+        ["env", {
+          "modules": false
+        }],
+        "stage-0",
+        "react"
+      ]
+    },
+    "web": {
+      "presets": [
+        ["env", {
+          "modules": false
+        }],
+        "stage-0",
+        "react"
+      ]
+    }
+  },
+  "plugins": ["transform-runtime"]
+}
