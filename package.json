@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "author": "lizhooh",
   "private": true,
-  "description": "gogit gogit 守护进程可视化客户端。",
+  "description": "gogit 守护进程可视化客户端。",
   "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
