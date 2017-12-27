@@ -18,17 +18,19 @@ function createWindow() {
      * Initial window options
      */
     mainWindow = new BrowserWindow({
-        height: 563,
+        height: 480,
+        width: 320 + 400,
         useContentSize: true,
-        width: 1000
-    })
+        frame: false,                   // 边框
+        transparent: true,              // 背景透明
+    });
 
     mainWindow.loadURL(winURL);
     mainWindow.setMenu(null);
 
     mainWindow.on('closed', () => {
         mainWindow = null
-    })
+    });
 }
 
 app.on('ready', createWindow)
