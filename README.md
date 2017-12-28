@@ -1,5 +1,5 @@
-## gogit
-gogit 守护进程可视化客户端。
+## Gogit
+Gogit 守护进程可视化客户端。
 
 ![](./demo/demo.png)
 
