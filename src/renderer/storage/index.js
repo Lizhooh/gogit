@@ -5,7 +5,7 @@ export default {
         return JSON.parse(Storage.getItem(key));
     },
     set(key, value) {
-        Storage.setItem(key, JSON.stringify(data));
+        Storage.setItem(key, JSON.stringify(value));
         return this;
     },
     delete(key) {

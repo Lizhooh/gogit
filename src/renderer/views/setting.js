@@ -3,23 +3,56 @@ import styled from 'styled-components';
 import Icon from '@/components/icon';
 import { Link } from 'react-router-dom';
 import Field from '@/components/field';
+import { ipcRenderer } from 'electron';
+import Storage from '@/storage';
 
 export default class SettingView extends Component {
+
+    constructor(props) {
+        super(props);
+        const config = Storage.get('APP-CONFIG') || {};
+        this.state = {
+            path: config.path || '',
+            port: config.port || 5000,
+        };
+    }
+
+    save = e => {
+        Storage.set('APP-CONFIG', {
+            path: this.state.path,
+            port: this.state.port,
+        });
+    }
+
+    onChange = (e, field) => {
+        this.setState({ [field]: e.target.value });
+    }
+
     render() {
+        const { path, port } = this.state;
+
         return (
             <Container>
                 <Header>
-                    <Link to="/" title="返回">
-                        <Icon type='arrow_back' />
-                    </Link>
+                    <Link to="/"><Icon type='arrow_back' /></Link>
                     <Blank>设置</Blank>
                     <Icon type='clear' onClick={e => ipcRenderer.send('#window-hide')} />
                 </Header>
                 <Content>
-                    <Field text="位置" placeholder="gogs 所在路径的位置" type="text" />
-                    <Field text="端口" placeholder="gogs 启动监听的端口" type="number" />
-
-                    <Button>保存</Button>
+                    <Field
+                        text="位置"
+                        placeholder="gogs 所在路径的位置"
+                        value={path}
+                        onChange={e => this.onChange(e, 'path')}
+                        />
+                    <Field
+                        text="端口"
+                        placeholder="gogs 启动监听的端口"
+                        type="number"
+                        value={port}
+                        onChange={e => this.onChange(e, 'port')}
+                        />
+                    <Button onClick={this.save}>保存</Button>
                 </Content>
             </Container>
         );
@@ -39,12 +72,13 @@ const Header = styled.div`
     align-items: center;
     justify-content: flex-end;
     padding: 0 8px;
+    background-color: #f4f4f4;
 
     a {
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        color: #fff;
+        color: rgba(1, 1, 1, 0);
     }
 `;
 
@@ -56,7 +90,7 @@ const Blank = styled.div`
 `;
 
 const Content = styled.div`
-    padding: 20px;
+    padding: 25px 16px;
     flex: 1;
 `;
 

@@ -1,6 +1,13 @@
 import Storage from '@/storage';
 const KEY = 'APP-CONFIG';
 const cp = require('child_process');
+const os = require('os');
+
+const ip = function () {
+    const network = os.networkInterfaces();
+    const list = network[Object.keys(network).filter(i => !/Loopback/.test(i))[0]];
+    return list.filter(i => i.family === 'IPv4')[0];
+}
 
 let gogit;
 
@@ -13,32 +20,38 @@ export function Run() {
             return reject('配置数据为空');
         }
 
-        if (config) {
+        if (!config.path) {
             return reject('没有配置 gogs 运行路径');
         }
 
-        const app_path = config.app_path;
+        const path = config.path;
         const port = config.port;
 
-        gogit = cp.execFile(app_path, ['web', '--port', port], (err, stdout, stderr) => {
+        // 启动进程
+        gogit = cp.execFile(path, ['web', '--port', port], (err, stdout, stderr) => {
             if (err) {
-                reject(err);
-                console.error('Error', err);
+                reject('查看端口是否被占用');
             }
             else if (stderr) {
-                reject(stderr);
-                console.error('Stderr', stderr);
-            }
-            else {
-                return resolve(gogit);
-                console.log('Stdout', stdout);
+                reject('gogs 运行错误');
             }
         });
 
         gogit.on('error', err => {
             resolve(err);
-            console.error(err)
         });
+
+        gogit.on('close', _ => {
+            resolve('Gogit 进程关闭了');
+        });
+
+        gogit.on('disconnent', _ => {
+            resolve('Gogit 关闭连接了');
+        });
+
+        setTimeout(() => {
+            resolve(`${ip().address}:${port}`);
+        }, 360);
     });
 }
 
@@ -48,7 +61,7 @@ export function Kill() {
             try {
                 gogit.kill();
                 gogit = undefined;
-                resolve();
+                resolve(true);
             }
             catch (err) {
                 return reject(err);

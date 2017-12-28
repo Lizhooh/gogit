@@ -4,6 +4,7 @@ import Icon from '@/components/icon';
 import _ from '@/data';
 import { ipcRenderer } from 'electron';
 import { Link } from 'react-router-dom';
+import { Run, Kill } from '@/node/run';
 
 let data;
 
@@ -23,25 +24,54 @@ export default class IndexView extends Component {
                 text: '运行错误',
                 color: '#ff4351',
             },
-            wait: {
+            static: {
                 type: 'highlight',
                 text: '未运行',
                 color: '#feae1b',
             },
-            loading: false,
         }
 
         this.state = data || {
-            status: 'wait'
+            status: 'static',
+            message: '',
         };
+
+        this.loading = false;
     }
 
-    onClick = e => {
-        if (this.state.loading) return;
-        const keys = Object.keys(this.statusMaps);
-        this.set({
-            status: keys[Math.random() * keys.length - 1 | 0]
-        });
+    onClick = async e => {
+        const { status } = this.state;
+        if (this.loading) return;
+
+        if (status === 'static' || status === 'error') {
+            this.loading = true;
+            try {
+                const res = await Run();
+                this.set({ message: res, status: 'active' });
+                this.loading = false;
+            }
+            catch (err) {
+                this.set({ message: err, status: 'error' });
+                this.loading = false;
+                console.error(err);
+            }
+        }
+
+        if (status === 'active') {
+            this.loading = true;
+            try {
+                const res = await Kill();
+                await new Promise(rs => setTimeout(rs, 100));
+                console.log(res);
+                this.set({ message: '', status: 'static' });
+                this.loading = false;
+            }
+            catch (err) {
+                this.set({ message: '发生错误', status: 'error' });
+                this.loading = false;
+                console.error(err);
+            }
+        }
     }
 
     set(d) {
@@ -51,7 +81,7 @@ export default class IndexView extends Component {
     }
 
     render() {
-        const { status } = this.state;
+        const { status, message } = this.state;
 
         return (
             <Container>
@@ -67,8 +97,14 @@ export default class IndexView extends Component {
                     <SubTitle>{_.version}</SubTitle>
                     <Content>
                         <Text>{this.statusMaps[status].text}</Text>
-                        <StatusAnimated color={this.statusMaps[status].color} />
+                        <StatusAnimated
+                            color={this.statusMaps[status].color}
+                            active={status === 'active'}
+                            />
                     </Content>
+                    <Message>
+                        <Text size={14}>{message}</Text>
+                    </Message>
                 </Section>
                 <Footer>
                     <Button
@@ -107,7 +143,7 @@ const Header = styled.header`
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        color: #fff;
+        color: rgba(1, 1, 1, 0);
     }
 `;
 
@@ -128,7 +164,7 @@ const SubTitle = styled.div`
 `;
 
 const Text = styled.span`
-    font-size: 15px;
+    font-size: ${p => p.size || 15}px;
 `;
 
 const Button = styled.button.attrs({
@@ -144,6 +180,7 @@ const Content = styled.div`
     align-items: center;
     justify-content: center;
     flex: 1;
+    flex-direction: column;
     position: relative;
 `;
 
@@ -160,7 +197,6 @@ const StatusAnimated = styled.div`
     border-radius: 50%;
     text-align: center;
     border: 0.5px solid #eee;
-    transform: scale(1.2);
 
     &::after {
         position: absolute;
@@ -174,8 +210,17 @@ const StatusAnimated = styled.div`
     }
 
     animation: status-animated-run 4s linear infinite;
+
+    ${p => !p.active && `animation-direction:alternate;`}
     @keyframes status-animated-run {
         0% { transform: rotate(0deg) }
         100% { transform: rotate(360deg) }
     }
+`;
+
+const Message = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 25px;
 `;
