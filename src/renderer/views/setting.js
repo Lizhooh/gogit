@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Icon from '@/components/icon';
 import { Link } from 'react-router-dom';
+import Field from '@/components/field';
 
 export default class SettingView extends Component {
     render() {
@@ -14,6 +15,12 @@ export default class SettingView extends Component {
                     <Blank>设置</Blank>
                     <Icon type='clear' onClick={e => ipcRenderer.send('#window-hide')} />
                 </Header>
+                <Content>
+                    <Field text="位置" placeholder="gogs 所在路径的位置" type="text" />
+                    <Field text="端口" placeholder="gogs 启动监听的端口" type="number" />
+
+                    <Button>保存</Button>
+                </Content>
             </Container>
         );
     }
@@ -22,6 +29,8 @@ export default class SettingView extends Component {
 const Container = styled.div`
     background-color: #fff;
     flex: 1;
+    display: flex;
+    flex-direction: column;
 `;
 
 const Header = styled.div`
@@ -44,4 +53,16 @@ const Blank = styled.div`
     flex: 1;
     font-size: 15px;
     text-align: center;
+`;
+
+const Content = styled.div`
+    padding: 20px;
+    flex: 1;
+`;
+
+const Button = styled.button.attrs({
+    className: p => `button button-rounded button-small button-royal`
+}) `
+    margin: 40px auto 20px;
+    display: block;
 `;

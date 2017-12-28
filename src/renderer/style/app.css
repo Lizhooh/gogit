@@ -45,4 +45,18 @@ html, body {
 
 * {
     box-sizing: border-box;
+    outline: none;
+}
+
+.flex-1 {
+    flex: 1;
+    height: 100%;
+}
+
+button, input, textarea {
+    font-family: inherit !important;
+}
+
+::-webkit-input-placeholder {
+    color:rgba(1, 1, 1, 0.32);
 }

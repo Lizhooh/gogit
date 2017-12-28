@@ -133,9 +133,7 @@ const Text = styled.span`
 
 const Button = styled.button.attrs({
     className: p => `button button-glow button-raised button-${p.type || 'highlight'} button-circle button-jumbo`
-}) `
-    margin: 12px auto;
-`;
+}) ` margin: 12px auto `;
 
 const Panel = styled.div`
     padding: 20px;
