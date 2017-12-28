@@ -1,6 +1,8 @@
 ## gogit
 gogit 守护进程可视化客户端。
 
+![](./demo/demo.png)
+
 #### Build Setup
 
 ``` bash
