@@ -57,7 +57,7 @@ function createWindow() {
     // 托盘图标
     appIcon = new Tray(logo);
     appIcon.setToolTip('GoGit 服务管理工具');
-    appIcon.on('click', event => win.show());
+    appIcon.on('double-click', event => win.show());
     appIcon.setContextMenu(Menu.buildFromTemplate([
         { label: '打开', type: 'normal', click() { win.show() } },
         { label: '退出', type: 'normal', role: 'close', click() { win.close() } },
