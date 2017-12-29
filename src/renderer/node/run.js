@@ -3,7 +3,7 @@ const KEY = 'APP-CONFIG';
 const cp = require('child_process');
 const os = require('os');
 
-const ip = function () {
+function ip() {
     const network = os.networkInterfaces();
     const list = network[Object.keys(network).filter(i => !/Loopback/.test(i))[0]];
     return list.filter(i => i.family === 'IPv4')[0];
@@ -30,28 +30,33 @@ export function Run() {
         // 启动进程
         gogit = cp.execFile(path, ['web', '--port', port], (err, stdout, stderr) => {
             if (err) {
-                reject('查看端口是否被占用');
+                reject(`查看端口（${port}）是否被占用`);
             }
             else if (stderr) {
                 reject('gogs 运行错误');
             }
+            console.log(stdout);
         });
 
         gogit.on('error', err => {
-            resolve(err);
+            reject('Nodejs 进程运行错误');
         });
 
         gogit.on('close', _ => {
-            resolve('Gogit 进程关闭了');
+            reject(`查看端口（${port}）是否被占用`);
         });
 
         gogit.on('disconnent', _ => {
-            resolve('Gogit 关闭连接了');
+            reject('Gogit 断开连接了');
+        });
+
+        gogit.on('connent', _ => {
+            resolve(`${ip().address}:${port}`);
         });
 
         setTimeout(() => {
             resolve(`${ip().address}:${port}`);
-        }, 360);
+        }, 500);
     });
 }
 

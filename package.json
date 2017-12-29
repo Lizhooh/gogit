@@ -1,10 +1,10 @@
 {
     "name": "gogit-work",
-    "productName": "gogit-work",
-    "version": "1.0.1",
+    "productName": "Gogits",
+    "version": "1.1.0",
     "author": "lizhooh",
     "private": true,
-    "description": "gogit 守护进程可视化客户端。",
+    "description": "GoGit 守护进程可视化客户端。",
     "license": "MIT",
     "main": "./dist/electron/main.js",
     "scripts": {

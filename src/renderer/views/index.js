@@ -51,6 +51,7 @@ export default class IndexView extends Component {
                 this.loading = false;
             }
             catch (err) {
+                err = err && err.message || err || '未知错误';
                 this.set({ message: err, status: 'error' });
                 this.loading = false;
                 console.error(err);
@@ -67,7 +68,8 @@ export default class IndexView extends Component {
                 this.loading = false;
             }
             catch (err) {
-                this.set({ message: '发生错误', status: 'error' });
+                err = err || err.message || '未知错误';
+                this.set({ message: err, status: 'error' });
                 this.loading = false;
                 console.error(err);
             }

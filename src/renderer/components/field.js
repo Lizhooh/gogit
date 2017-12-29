@@ -3,9 +3,8 @@ import styled from 'styled-components';
 
 export default (props) => (
     <Container>
-        <Text>{props.text}：</Text>
+        <Text>{props.text || ''}：</Text>
         <Input {...props} />
-
     </Container>
 );
 
