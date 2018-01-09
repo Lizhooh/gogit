@@ -32,7 +32,7 @@ export default class SettingView extends Component {
     }
 
     render() {
-        const { path, port } = this.state;
+        const { path, port, auto } = this.state;
 
         return (
             <Container>
@@ -58,6 +58,7 @@ export default class SettingView extends Component {
                     <Panel>
                         <span>启动时自动启动服务</span>
                         <CheckBox
+                            checked={auto}
                             size={22}
                             color='#76f'
                             onChange={val => this.setState({ auto: val })}

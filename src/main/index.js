@@ -104,6 +104,7 @@ const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
     }
 });
 
+// 如果已经打开了一个，则退出
 if (shouldQuit) {
     app.quit();
 }

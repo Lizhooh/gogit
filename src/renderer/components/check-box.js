@@ -11,13 +11,14 @@ export default class CheckBox extends Component {
     }
 
     onChange = e => {
+        const { onChange = _ => _ } = this.props;
         onChange(!this.state.checked);
         this.setState({ checked: !this.state.checked });
     }
 
     render() {
         const { checked } = this.state;
-        const { color = '#666', size = 24, onChange = _ => _ } = this.props;
+        const { color = '#666', size = 24 } = this.props;
 
         return (
             <i
