@@ -4,7 +4,8 @@ import {
     ipcMain,
     Tray,
     Menu,
-} from 'electron'
+    screen
+} from 'electron';
 
 const path = require('path');
 
@@ -26,10 +27,17 @@ const winURL = process.env.NODE_ENV === 'development'
 
 const isDev = process.env.NODE_ENV === 'development';
 
+const devWin = {
+    width: 880,
+    height: 480,
+    maxWidth: 880,
+    maxHeight: 480,
+};
+
 function createWindow() {
-    /**
-     * Initial window options
-     */
+    // 屏幕信息
+    const { width: X } = screen.getPrimaryDisplay().workAreaSize;
+
     win = new BrowserWindow({
         height: 480,
         width: 320,
@@ -40,6 +48,8 @@ function createWindow() {
         frame: false,                   // 边框
         transparent: true,              // 背景透明
         show: false,
+        x: X - (70 + 320),
+        y: 80,
         title: 'GoGit 服务管理工具',
     });
 

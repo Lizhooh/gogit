@@ -5,6 +5,7 @@ import _ from '@/data';
 import { ipcRenderer } from 'electron';
 import { Link } from 'react-router-dom';
 import { Run, Kill } from '@/node/run';
+import Storage from '@/storage';
 
 let data;
 
@@ -80,6 +81,17 @@ export default class IndexView extends Component {
         this.setState(d, () => {
             data = { ...this.state };
         });
+    }
+
+    componentDidMount() {
+        const config = Storage.get('APP-CONFIG');
+        console.log(config);
+        // 自动启动
+        if (config && config.auto) {
+            setTimeout(() => {
+                this.onClick({});
+            }, 1000 * 3);
+        }
     }
 
     render() {
