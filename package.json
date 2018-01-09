@@ -1,7 +1,7 @@
 {
-    "name": "gogit-work",
+    "name": "gogit",
     "productName": "Gogits",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "author": "lizhooh",
     "private": true,
     "description": "GoGit 守护进程可视化客户端。",
