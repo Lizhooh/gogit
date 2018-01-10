@@ -83,14 +83,17 @@ export default class IndexView extends Component {
         });
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const config = Storage.get('APP-CONFIG');
         console.log(config);
         // 自动启动
         if (config && config.auto) {
-            setTimeout(() => {
-                this.onClick({});
-            }, 1000 * 3);
+            await new Promise(rs => setTimeout(rs, 1000 * 1.8));
+            this.onClick({});
+            await new Promise(rs => setTimeout(rs, 1000 * 3));
+            if (this.state.status === 'active') {
+                ipcRenderer.send('#window-hide');
+            }
         }
     }
 
