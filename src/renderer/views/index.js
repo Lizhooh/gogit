@@ -8,6 +8,7 @@ import { Run, Kill } from '@/node/run';
 import Storage from '@/storage';
 
 let data;
+let firstStart = true;
 
 export default class IndexView extends Component {
 
@@ -44,10 +45,12 @@ export default class IndexView extends Component {
         const { status } = this.state;
         if (this.loading) return;
 
+        // 运行
         if (status === 'static' || status === 'error') {
             this.loading = true;
             try {
                 const res = await Run();
+                console.log('运行');
                 this.set({ message: res, status: 'active' });
                 this.loading = false;
             }
@@ -59,6 +62,7 @@ export default class IndexView extends Component {
             }
         }
 
+        // 停止
         if (status === 'active') {
             this.loading = true;
             try {
@@ -85,14 +89,14 @@ export default class IndexView extends Component {
 
     async componentDidMount() {
         const config = Storage.get('APP-CONFIG');
-        console.log(config);
         // 自动启动
-        if (config && config.auto) {
+        if (config && config.auto && firstStart && this.state.status === 'static') {
             await new Promise(rs => setTimeout(rs, 1000 * 1.8));
             this.onClick({});
             await new Promise(rs => setTimeout(rs, 1000 * 3));
             if (this.state.status === 'active') {
                 ipcRenderer.send('#window-hide');
+                firstStart = false;
             }
         }
     }

@@ -1,7 +1,7 @@
 {
     "name": "gogit",
     "productName": "Gogits",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "author": "lizhooh",
     "private": true,
     "description": "GoGit 守护进程可视化客户端。",

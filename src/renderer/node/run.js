@@ -66,7 +66,7 @@ export function Kill() {
             try {
                 gogit.kill();
                 gogit = undefined;
-                resolve(true);
+                resolve('kill');
             }
             catch (err) {
                 return reject(err);
