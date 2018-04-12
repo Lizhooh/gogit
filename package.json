@@ -4,7 +4,7 @@
     "version": "1.2.4",
     "author": "lizhooh",
     "private": true,
-    "description": "GoGit 守护进程可视化客户端。",
+    "description": "Gogit 是 Gogs 的守护进程可视化客户端。",
     "license": "MIT",
     "main": "./dist/electron/main.js",
     "scripts": {
