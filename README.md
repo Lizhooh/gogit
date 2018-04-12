@@ -1,9 +1,10 @@
-## Gogit
-Gogit 守护进程可视化客户端。
+## 说明
+Gogit 是 Gogs 的守护进程可视化客户端。
+使用之前先下载好 [Gogs](https://gogs.io/)，之后启动应用，配置 gogs.exe 的路径和端口。
 
-![](./demo/demo.png)
+![](./demo/demo.gif)
 
-#### Build Setup
+#### 编译
 
 ``` bash
 # install dependencies
@@ -16,3 +17,7 @@ npm start
 npm run build
 ```
 
+添加到 windows 启动项里
+```bash
+C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+```
