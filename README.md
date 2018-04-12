@@ -2,6 +2,11 @@
 Gogit 是 Gogs 的守护进程可视化客户端。
 使用之前先下载好 [Gogs](https://gogs.io/)，之后启动应用，配置 gogs.exe 的路径和端口。
 
+实际上它的效果等效于命令行：
+```bash
+./gogs.exe web --port 5000
+```
+
 ![](./demo/demo.gif)
 
 #### 编译
